@@ -6,11 +6,7 @@ A modular iOS product listing app built with SwiftUI, Swift Package Manager, and
 
 | Product List | Search & Filter | Product Detail | Favorites |
 |---|---|---|---|
-| *Product List*<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-07-14 at 19 07 54" src="https://github.com/user-attachments/assets/65871976-1844-4498-9acd-a5d37a9f9fd8" />
- | *Real-time search + filters* <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-07-14 at 19 09 24" src="https://github.com/user-attachments/assets/fa67b45a-799d-45eb-9533-2269f2fd7c8c" />
-| *Image gallery + info* <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-07-14 at 19 10 33" src="https://github.com/user-attachments/assets/ce55052f-df8e-4ae7-aad2-fb5669745674" />
-| *Heart toggle on cards* <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-07-14 at 19 12 11" src="https://github.com/user-attachments/assets/9eb12d83-b9c7-41e6-bcd6-8182826bfbd1" />
- |
+| <img src="https://github.com/user-attachments/assets/65871976-1844-4498-9acd-a5d37a9f9fd8" alt="Product List" width="200" /> | <img src="https://github.com/user-attachments/assets/fa67b45a-799d-45eb-9533-2269f2fd7c8c" alt="Search & Filter" width="200" /> | <img src="https://github.com/user-attachments/assets/ce55052f-df8e-4ae7-aad2-fb5669745674" alt="Product Detail" width="200" /> | <img src="https://github.com/user-attachments/assets/9eb12d83-b9c7-41e6-bcd6-8182826bfbd1" alt="Favorites" width="200" /> |
 
 ## Tech Stack
 
