@@ -1,0 +1,142 @@
+Mobile Developer Technical Assessment Guide
+This assessment is designed to evaluate your technical proficiency, system architecture design skills,
+and your ability to leverage AI tools to enhance productivity and problem-solving. Please develop a
+mobile application that demonstrates your best work within the given technical constraints.
+
+1. Task Overview
+• Topic: Open (Develop a standalone app service using any Open API or custom data).
+• Duration: 48 hours from the start of the task.
+
+2.Technical Stack & Requirements
+• UI Framework: SwiftUI (Required)• Architecture: Multi-Module Architecture (Required)
+• Language: Swift
+• Recommendations: Swift Concurrency (Async/Await), Combine or TCA/MVVM patterns, and SPM
+(Swift Package Manager).
+
+3. Core Functional Requirements
+Regardless of the app's theme, the following four core features must be implemented:
+1. 2. 3. 4. Data List Interaction: Fetch data from an external API or local source with list paging and
+navigation to a detailed view.
+Search & Filtering: A functional real-time search bar or a multi-criteria data filtering system.
+Data Persistence & State Management: Implementation of "Favorites," local caching, or user
+preference storage.
+Network & Error Handling: Graceful handling of offline states, API errors, and user-facing
+notifications (Toasts, Alerts, etc.).
+
+4. AI Utilization Guidelines
+The use of AI tools (ChatGPT, Claude, GitHub Copilot, etc.) is highly encouraged. To evaluate how you
+integrate these tools into your professional workflow, you must include an "AI Documentation" section
+in your README.md detailing:
+• Scope of Usage: Where did you use AI? (e.g., Boilerplate modules, complex algorithm logic, Unit
+Test generation).
+• Prompt Examples: Provide 1–2 examples of effective prompts or complex problem-solving
+dialogues.
+• Verification Process: Explain how you validated the AI-generated code for errors, security, or
+performance.
+• Reflection: A brief note on how AI impacted your productivity or the quality of the final
+architecture.
+
+5. Evaluation Criteria
+1. Architecture (40%): Effective modularization, Separation of Concerns (SoC), scalability, and ease
+of maintenance.2. 3. 4. Code Quality (30%): Readability, consistent coding conventions, robust error handling, and
+resource optimization.
+AI Workflow Literacy (20%): Logical process in defining and solving problems using AI tools.
+Polish & Stability (10%): Attention to UI/UX detail and overall application stability.
+
+6. Submission Checklist
+• GitHub Repository:
+o Push the final code to the main branch.
+
+7. Task:
+API: https://dummyjson.com/products?limit=10&skip=0
+Http Method: GET
+Pagination: limit = 10 skip = 0
+For next page: skip=10
+Check total in the response to invoke further api call on scroll reaching to bottom.
+
+Response:
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Essence Mascara Lash Princess",
+      "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+      "category": "beauty",
+      "price": 9.99,
+      "discountPercentage": 10.48,
+      "rating": 2.56,
+      "stock": 99,
+      "tags": [
+        "beauty",
+        "mascara"
+      ],
+      "brand": "Essence",
+      "sku": "BEA-ESS-ESS-001",
+      "weight": 4,
+      "dimensions": {
+        "width": 15.14,
+        "height": 13.08,
+        "depth": 22.99
+      },
+      "warrantyInformation": "1 week warranty",
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [
+        {
+          "rating": 3,
+          "comment": "Would not recommend!",
+          "date": "2025-04-30T09:41:02.053Z",
+          "reviewerName": "Eleanor Collins",
+          "reviewerEmail": "eleanor.collins@x.dummyjson.com"
+        },
+        {
+          "rating": 4,
+          "comment": "Very satisfied!",
+          "date": "2025-04-30T09:41:02.053Z",
+          "reviewerName": "Lucas Gordon",
+          "reviewerEmail": "lucas.gordon@x.dummyjson.com"
+        },
+        {
+          "rating": 5,
+          "comment": "Highly impressed!",
+          "date": "2025-04-30T09:41:02.053Z",
+          "reviewerName": "Eleanor Collins",
+          "reviewerEmail": "eleanor.collins@x.dummyjson.com"
+        }
+      ],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 48,
+      "meta": {
+        "createdAt": "2025-04-30T09:41:02.053Z",
+        "updatedAt": "2025-04-30T09:41:02.053Z",
+        "barcode": "5784719087687",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp"
+      ],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
+    },
+	…..
+  ],
+  "total": 194,
+  "skip": 0,
+  "limit": 10
+}
+
+Invoke this api call and display list of products in the products view
+Product list should display thumbnail, title, and price
+On scroll nearing to bottom invoke further page, dont trigger duplicate call
+Add search bar to find product based on title or description
+See multi-criteria data filtering system based on the response. Choose any criteria which we can do with this response.
+Clicking on product navigate to produce t details and show more details about this product.
+On product detail page display multiple images in HStack membered in scrollview.
+Use any 3rd party lib KFImage SPM for image loading.
+Add most information to display in detail screen.
+UI/UX should be smooth and attractive UI, use AI creativity for UI design.
+
+
+
+
+
+
