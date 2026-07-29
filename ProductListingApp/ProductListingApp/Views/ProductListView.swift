@@ -10,6 +10,7 @@ struct ProductListView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel: ProductListViewModel
     @State private var isFilterExpanded = false
+    @State private var searchQuery = ""
 
     // MARK: - Initializer
 
@@ -36,6 +37,14 @@ struct ProductListView: View {
             }
         }
         .accessibilityIdentifier(AccessibilityID.ProductList.viewContainer)
+        .onChange(of: searchQuery) { _, newValue in
+            viewModel.searchText = newValue
+        }
+        .onChange(of: viewModel.searchText) { _, newValue in
+            if searchQuery != newValue {
+                searchQuery = newValue
+            }
+        }
     }
 }
 
@@ -49,26 +58,7 @@ private extension ProductListView {
                 accessibilityID: AccessibilityID.Common.viewLoading,
                 message: "Loading products..."
             )
-        } else if let errorMessage = viewModel.errorMessage {
-            VStack(spacing: 0) {
-                searchBarSection
-                ErrorView(
-                    accessibilityID: AccessibilityID.Common.viewError,
-                    message: errorMessage,
-                    onRetry: { Task { await viewModel.fetchProducts() } }
-                )
-            }
-        } else if !viewModel.hasProducts && !viewModel.searchText.isEmpty {
-            VStack(spacing: 0) {
-                searchBarSection
-                EmptyStateView(
-                    accessibilityID: AccessibilityID.Common.viewEmpty,
-                    message: "Try adjusting your search or filters.",
-                    systemImage: "magnifyingglass",
-                    title: "No Results Found"
-                )
-            }
-        } else if !viewModel.hasProducts {
+        } else if !viewModel.hasProducts && viewModel.searchText.isEmpty && viewModel.errorMessage == nil {
             EmptyStateView(
                 accessibilityID: AccessibilityID.Common.viewEmpty,
                 message: "No products available at the moment.",
@@ -91,23 +81,13 @@ private extension ProductListView {
         .accessibilityIdentifier(AccessibilityID.ProductList.buttonFilter)
     }
 
-    var searchBarSection: some View {
-        SearchBarView(
-            accessibilityID: AccessibilityID.ProductList.textfieldSearch,
-            placeholder: "Search products...",
-            text: $viewModel.searchText
-        )
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-    }
-
     var productListView: some View {
         List {
             Section {
                 SearchBarView(
                     accessibilityID: AccessibilityID.ProductList.textfieldSearch,
                     placeholder: "Search products...",
-                    text: $viewModel.searchText
+                    text: $searchQuery
                 )
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
@@ -140,28 +120,51 @@ private extension ProductListView {
                 }
             }
 
-            Section {
-                ForEach(Array(viewModel.filteredProducts.enumerated()), id: \.element.id) { index, product in
-                    NavigationLink(value: product) {
-                        ProductCardView(
-                            accessibilityID: AccessibilityID.ProductList.cellProduct(index),
-                            discountPercentage: product.discountPercentage,
-                            isFavorite: viewModel.isFavorite(productId: product.id, modelContext: modelContext),
-                            onFavoriteTap: {
-                                viewModel.toggleFavorite(product: product, modelContext: modelContext)
-                            },
-                            price: product.price,
-                            rating: product.rating,
-                            thumbnailURL: product.thumbnailURL,
-                            title: product.title
-                        )
-                    }
-                    .buttonStyle(.plain)
+            if let errorMessage = viewModel.errorMessage {
+                Section {
+                    ErrorView(
+                        accessibilityID: AccessibilityID.Common.viewError,
+                        message: errorMessage,
+                        onRetry: { Task { await viewModel.fetchProducts() } }
+                    )
                     .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-                    .task {
-                        await viewModel.loadMoreIfNeeded(currentProduct: product)
+                    .listRowInsets(EdgeInsets(top: 40, leading: 16, bottom: 40, trailing: 16))
+                }
+            } else if viewModel.hasProducts {
+                Section {
+                    ForEach(Array(viewModel.filteredProducts.enumerated()), id: \.element.id) { index, product in
+                        NavigationLink(value: product) {
+                            ProductCardView(
+                                accessibilityID: AccessibilityID.ProductList.cellProduct(index),
+                                discountPercentage: product.discountPercentage,
+                                isFavorite: viewModel.isFavorite(productId: product.id, modelContext: modelContext),
+                                onFavoriteTap: {
+                                    viewModel.toggleFavorite(product: product, modelContext: modelContext)
+                                },
+                                price: product.price,
+                                rating: product.rating,
+                                thumbnailURL: product.thumbnailURL,
+                                title: product.title
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                        .task {
+                            await viewModel.loadMoreIfNeeded(currentProduct: product)
+                        }
                     }
+                }
+            } else {
+                Section {
+                    EmptyStateView(
+                        accessibilityID: AccessibilityID.Common.viewEmpty,
+                        message: "Try adjusting your search or filters.",
+                        systemImage: "magnifyingglass",
+                        title: "No Results Found"
+                    )
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 40, leading: 16, bottom: 40, trailing: 16))
                 }
             }
 

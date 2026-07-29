@@ -75,13 +75,16 @@ final class ProductListViewModel: ObservableObject {
         toastMessage = ""
     }
 
-    func fetchProducts() async {
+    func fetchProducts(showFullScreenLoading: Bool = true) async {
         guard !isFetching else { return }
         isFetching = true
-        isLoading = true
         errorMessage = nil
         currentSkip = 0
-        allProducts = []
+
+        if showFullScreenLoading {
+            isLoading = true
+            allProducts = []
+        }
 
         do {
             let response: ProductResponse
@@ -176,7 +179,9 @@ private extension ProductListViewModel {
             .removeDuplicates()
             .sink { [weak self] _ in
                 guard let self else { return }
-                Task { await self.fetchProducts() }
+                Task {
+                    await self.fetchProducts(showFullScreenLoading: false)
+                }
             }
     }
 
